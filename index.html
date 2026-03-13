@@ -3,89 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Archive Café — Order</title>
-
 <style>
 body{
-font-family: Georgia, serif;
-background:#F5F2EB;
-color:#5B3B1C;
-margin:0;
-padding:0;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+  font-family: Georgia, serif;
+  background:#F5F2EB;
+  color:#5B3B1C;
+  margin:0;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
 .container{
-background:white;
-padding:40px;
-width:420px;
-border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  background:white;
+  padding:40px;
+  width:420px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
-
-h1{
-text-align:center;
-margin-bottom:5px;
-}
-
-.subtitle{
-text-align:center;
-color:#8B1E2D;
-font-size:14px;
-margin-bottom:25px;
-}
-
-label{
-display:block;
-margin-top:15px;
-font-size:14px;
-}
-
-input, select, textarea{
-width:100%;
-padding:10px;
-margin-top:5px;
-border:1px solid #ddd;
-border-radius:6px;
-font-family:inherit;
-}
-
-button{
-margin-top:25px;
-width:100%;
-padding:12px;
-border:none;
-background:#8B1E2D;
-color:white;
-font-size:16px;
-border-radius:6px;
-cursor:pointer;
-}
-
-button:hover{
-background:#6e1624;
-}
-
-.footer{
-text-align:center;
-margin-top:20px;
-font-size:12px;
-color:#777;
-}
-
-.hidden{
-display:none;
-}
+h1{text-align:center;margin-bottom:5px;}
+.subtitle{ text-align:center;color:#8B1E2D;font-size:14px;margin-bottom:25px;}
+label{display:block;margin-top:15px;font-size:14px;}
+input, select, textarea{ width:100%;padding:10px;margin-top:5px;border:1px solid #ddd;border-radius:6px;font-family:inherit;}
+button{margin-top:25px;width:100%;padding:12px;border:none;background:#8B1E2D;color:white;font-size:16px;border-radius:6px;cursor:pointer;}
+button:hover{background:#6e1624;}
+.footer{ text-align:center;margin-top:20px;font-size:12px;color:#777;}
+.hidden{display:none;}
+.checkbox-group{margin-top:10px;}
+.checkbox-group label{display:block;font-size:14px;margin-top:5px;}
 </style>
 </head>
 <body>
-
 <div class="container">
 <h1>Archive Café</h1>
 <div class="subtitle">Place an Archive Order</div>
-
 <form action="https://formspree.io/f/xwvrqevg" method="POST">
 
 <label>Name</label>
@@ -99,31 +51,61 @@ display:none;
 
 <label>Pickup or Delivery</label>
 <select name="method" id="method" required>
-<option value="Pickup">Pickup — Dubai, Al Warqa 2</option>
-<option value="Delivery">Delivery — All Across UAE (25–35 AED depending on area)</option>
+  <option value="Pickup">Pickup — Dubai, Al Warqa 2</option>
+  <option value="Delivery">Delivery — All Across UAE (25–35 AED depending on area)</option>
 </select>
 
 <!-- Tray / Brownie + Ice Cream selection -->
 <div id="trayFields" class="hidden">
 <label>Choose Your Order</label>
 <select name="order_type" id="order_type" required>
-<option value="">-- Select --</option>
-<option value="Half Tray">Half Tray — 55 AED</option>
-<option value="Full Tray">Full Tray — 85 AED</option>
-<option value="Brownie & Ice Cream">Brownie & Ice Cream — Vanilla or Chocolate — 35 AED</option>
+  <option value="">-- Select --</option>
+  <option value="Half Tray">Half Tray — 55 AED</option>
+  <option value="Full Tray">Full Tray — 85 AED</option>
+  <option value="Brownie & Ice Cream">Brownie & Ice Cream — Vanilla or Chocolate — 35 AED</option>
 </select>
 </div>
 
-<!-- Flavor selection -->
+<!-- Flavor selection for trays -->
 <div id="flavorFields" class="hidden">
 <label>Select Your Brownie</label>
-<select name="flavor" required>
-<option value="Belgian Chocolate">Belgian Chocolate — Archive Collection</option>
-<option value="Nutella">Nutella — Archive Edition</option>
-<option value="Sea Salt Chocolate">Sea Salt Chocolate — Signature Archive</option>
-<option value="Kinder Pieces">Kinder Pieces — Special Archive</option>
-<option value="Pistachio">Pistachio — Limited Archive (+3 AED)</option>
-<option value="Mix">Mix — Curated Archive (+3 AED)</option>
+<select name="flavor" id="flavor" required>
+  <option value="Belgian Chocolate">Belgian Chocolate — Archive Collection</option>
+  <option value="Nutella">Nutella — Archive Edition</option>
+  <option value="Sea Salt Chocolate">Sea Salt Chocolate — Signature Archive</option>
+  <option value="Kinder Pieces">Kinder Pieces — Special Archive</option>
+  <option value="Pistachio">Pistachio — Limited Archive (+3 AED)</option>
+  <option value="Mix">Mix — Curated Archive (+3 AED)</option>
+</select>
+</div>
+
+<!-- Mix extra flavor selection -->
+<div id="mixExtra" class="hidden">
+<label>Pick up to 3 Flavors for Mix (+3 AED)</label>
+<div class="checkbox-group">
+  <label><input type="checkbox" name="mix_flavors[]" value="Belgian Chocolate"> Belgian Chocolate — Archive Collection</label>
+  <label><input type="checkbox" name="mix_flavors[]" value="Nutella"> Nutella — Archive Edition</label>
+  <label><input type="checkbox" name="mix_flavors[]" value="Sea Salt Chocolate"> Sea Salt Chocolate — Signature Archive</label>
+  <label><input type="checkbox" name="mix_flavors[]" value="Kinder Pieces"> Kinder Pieces — Special Archive</label>
+  <label><input type="checkbox" name="mix_flavors[]" value="Pistachio"> Pistachio — Limited Archive (+3 AED)</label>
+</div>
+</div>
+
+<!-- Brownie & Ice Cream custom fields -->
+<div id="iceCreamFields" class="hidden">
+<label>Select Ice Cream Flavor</label>
+<select name="ice_cream" required>
+  <option value="">-- Select Flavor --</option>
+  <option value="Vanilla">Vanilla</option>
+  <option value="Chocolate">Chocolate</option>
+</select>
+
+<label>Choose Your Drizzle</label>
+<select name="drizzle" required>
+  <option value="">-- Select --</option>
+  <option value="Belgian Chocolate">Belgian Chocolate</option>
+  <option value="Nutella">Nutella</option>
+  <option value="Caramel">Caramel</option>
 </select>
 </div>
 
@@ -162,9 +144,13 @@ const pickupFields = document.getElementById('pickupFields');
 const trayFields = document.getElementById('trayFields');
 const flavorFields = document.getElementById('flavorFields');
 const orderTypeSelect = document.getElementById('order_type');
+const flavorSelect = document.getElementById('flavor');
+const mixExtra = document.getElementById('mixExtra');
+const iceCreamFields = document.getElementById('iceCreamFields');
 
-methodSelect.addEventListener('change', function() {
-  if(this.value === 'Delivery'){
+// Show delivery/pickup fields
+methodSelect.addEventListener('change', () => {
+  if(methodSelect.value==='Delivery'){
     deliveryFields.classList.remove('hidden');
     pickupFields.classList.add('hidden');
   } else {
@@ -172,18 +158,52 @@ methodSelect.addEventListener('change', function() {
     deliveryFields.classList.add('hidden');
   }
   trayFields.classList.remove('hidden');
-  flavorFields.classList.add('hidden'); // hide flavors until tray or brownie+ice cream is chosen
+  flavorFields.classList.add('hidden');
+  mixExtra.classList.add('hidden');
+  iceCreamFields.classList.add('hidden');
 });
 
-// Show flavor selection only for trays (not for Brownie & Ice Cream)
-orderTypeSelect.addEventListener('change', function() {
-  if(this.value === 'Half Tray' || this.value === 'Full Tray'){
+// Show fields based on order type
+orderTypeSelect.addEventListener('change', () => {
+  const type = orderTypeSelect.value;
+  if(type==='Half Tray' || type==='Full Tray'){
     flavorFields.classList.remove('hidden');
-  } else {
+    iceCreamFields.classList.add('hidden');
+    mixExtra.classList.add('hidden');
+    flavorSelect.value = "";
+  } else if(type==='Brownie & Ice Cream'){
+    iceCreamFields.classList.remove('hidden');
     flavorFields.classList.add('hidden');
+    mixExtra.classList.add('hidden');
+  } else{
+    flavorFields.classList.add('hidden');
+    iceCreamFields.classList.add('hidden');
+    mixExtra.classList.add('hidden');
   }
 });
-</script>
 
+// Show mix extra only when Mix is selected
+flavorSelect.addEventListener('change', () => {
+  if(flavorSelect.value==='Mix'){
+    mixExtra.classList.remove('hidden');
+  } else {
+    mixExtra.classList.add('hidden');
+    // uncheck all checkboxes when hiding
+    mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
+  }
+});
+
+// Limit checkboxes for Mix to 3
+mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
+    if(checked.length>3){
+      cb.checked = false;
+      alert("You can only pick up to 3 flavors for Mix!");
+    }
+  });
+});
+</script>
 </body>
 </html>
+
