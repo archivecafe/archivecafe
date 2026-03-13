@@ -5,7 +5,6 @@
 <title>Archive Café — Order</title>
 
 <style>
-
 body{
 font-family: Georgia, serif;
 background:#F5F2EB;
@@ -76,13 +75,14 @@ font-size:12px;
 color:#777;
 }
 
+.hidden{
+display:none;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
 <h1>Archive Café</h1>
 <div class="subtitle">Place an Archive Order</div>
 
@@ -91,61 +91,99 @@ color:#777;
 <label>Name</label>
 <input type="text" name="name" required>
 
+<label>Email</label>
+<input type="email" name="email" required>
+
 <label>Phone Number</label>
 <input type="text" name="phone" required>
 
+<label>Pickup or Delivery</label>
+<select name="method" id="method" required>
+<option value="Pickup">Pickup — Dubai, Al Warqa 2</option>
+<option value="Delivery">Delivery — All Across UAE (25–35 AED depending on area)</option>
+</select>
+
+<!-- Tray / Brownie + Ice Cream selection -->
+<div id="trayFields" class="hidden">
+<label>Choose Your Order</label>
+<select name="order_type" id="order_type" required>
+<option value="">-- Select --</option>
+<option value="Half Tray">Half Tray — 55 AED</option>
+<option value="Full Tray">Full Tray — 85 AED</option>
+<option value="Brownie & Ice Cream">Brownie & Ice Cream — Vanilla or Chocolate — 35 AED</option>
+</select>
+</div>
+
+<!-- Flavor selection -->
+<div id="flavorFields" class="hidden">
 <label>Select Your Brownie</label>
 <select name="flavor" required>
-
-<option value="Belgian Chocolate">
-Belgian Chocolate — Archive Collection
-</option>
-
-<option value="Nutella">
-Nutella — Archive Edition
-</option>
-
-<option value="Sea Salt Chocolate">
-Sea Salt Chocolate — Signature Archive
-</option>
-
-<option value="Kinder Pieces">
-Kinder Pieces — Special Archive
-</option>
-
-<option value="Pistachio">
-Pistachio — Limited Archive (+3 AED)
-</option>
-
-<option value="Mix">
-Mix — Curated Archive (+3 AED)
-</option>
-
+<option value="Belgian Chocolate">Belgian Chocolate — Archive Collection</option>
+<option value="Nutella">Nutella — Archive Edition</option>
+<option value="Sea Salt Chocolate">Sea Salt Chocolate — Signature Archive</option>
+<option value="Kinder Pieces">Kinder Pieces — Special Archive</option>
+<option value="Pistachio">Pistachio — Limited Archive (+3 AED)</option>
+<option value="Mix">Mix — Curated Archive (+3 AED)</option>
 </select>
+</div>
 
-<label>Quantity</label>
-<input type="number" name="quantity" min="1" required>
+<!-- Delivery-specific fields -->
+<div id="deliveryFields" class="hidden">
+<label>Delivery Address</label>
+<textarea name="address" rows="2"></textarea>
 
-<label>Pickup or Delivery</label>
-<select name="method">
-<option value="Pickup">Pickup</option>
-<option value="Delivery">Delivery</option>
-</select>
+<label>Preferred Delivery Date & Time</label>
+<input type="datetime-local" name="delivery_date">
+</div>
+
+<!-- Pickup-specific fields -->
+<div id="pickupFields" class="hidden">
+<label>Preferred Pickup Date & Time</label>
+<input type="datetime-local" name="pickup_date">
+</div>
 
 <label>Notes</label>
 <textarea name="notes" rows="3"></textarea>
 
 <button type="submit">Archive My Box</button>
-
 </form>
 
 <div class="footer">
-Archive Café • Freshly Archived Desserts
+Archive Café • Freshly Archived Desserts<br>
+Order 24 Hours in Advance (Delivery) | Order 1 Hour in Advance (Pickup)<br>
+Instagram: @ARCHIVECAFE.AE
+</div>
 </div>
 
-</div>
+<script>
+const methodSelect = document.getElementById('method');
+const deliveryFields = document.getElementById('deliveryFields');
+const pickupFields = document.getElementById('pickupFields');
+const trayFields = document.getElementById('trayFields');
+const flavorFields = document.getElementById('flavorFields');
+const orderTypeSelect = document.getElementById('order_type');
+
+methodSelect.addEventListener('change', function() {
+  if(this.value === 'Delivery'){
+    deliveryFields.classList.remove('hidden');
+    pickupFields.classList.add('hidden');
+  } else {
+    pickupFields.classList.remove('hidden');
+    deliveryFields.classList.add('hidden');
+  }
+  trayFields.classList.remove('hidden');
+  flavorFields.classList.add('hidden'); // hide flavors until tray or brownie+ice cream is chosen
+});
+
+// Show flavor selection only for trays (not for Brownie & Ice Cream)
+orderTypeSelect.addEventListener('change', function() {
+  if(this.value === 'Half Tray' || this.value === 'Full Tray'){
+    flavorFields.classList.remove('hidden');
+  } else {
+    flavorFields.classList.add('hidden');
+  }
+});
+</script>
 
 </body>
 </html>
-
-
