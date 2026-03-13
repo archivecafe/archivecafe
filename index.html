@@ -29,16 +29,40 @@ input, select, textarea{ width:100%;padding:10px;margin-top:5px;border:1px solid
 button{margin-top:25px;width:100%;padding:12px;border:none;background:#8B1E2D;color:white;font-size:16px;border-radius:6px;cursor:pointer;}
 button:hover{background:#6e1624;}
 .footer{ text-align:center;margin-top:20px;font-size:12px;color:#777;}
-.hidden{display:none;}
-.checkbox-group{margin-top:10px;}
-.checkbox-group label{display:block;font-size:14px;margin-top:5px;}
+.hidden{
+  display:none;
+  opacity:0;
+  transition: opacity 0.5s ease;
+}
+.visible{
+  display:block;
+  opacity:1;
+  transition: opacity 0.5s ease;
+}
+.checkbox-group{
+  margin-top:10px;
+  border:1px solid #ddd;
+  padding:10px;
+  border-radius:6px;
+  background:#f9f6f2;
+}
+.checkbox-group label{
+  display:block;
+  font-size:14px;
+  margin-top:5px;
+}
+.note{
+  font-size:12px;
+  color:#555;
+  margin-top:3px;
+}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>Archive Café</h1>
 <div class="subtitle">Place an Archive Order</div>
-<form action="https://formspree.io/f/xwvrqevg" method="POST">
+<form id="archiveForm" action="https://formspree.io/f/xwvrqevg" method="POST">
 
 <label>Name</label>
 <input type="text" name="name" required>
@@ -51,11 +75,11 @@ button:hover{background:#6e1624;}
 
 <label>Pickup or Delivery</label>
 <select name="method" id="method" required>
+  <option value="">-- Select --</option>
   <option value="Pickup">Pickup — Dubai, Al Warqa 2</option>
   <option value="Delivery">Delivery — All Across UAE (25–35 AED depending on area)</option>
 </select>
 
-<!-- Tray / Brownie + Ice Cream selection -->
 <div id="trayFields" class="hidden">
 <label>Choose Your Order</label>
 <select name="order_type" id="order_type" required>
@@ -66,7 +90,6 @@ button:hover{background:#6e1624;}
 </select>
 </div>
 
-<!-- Flavor selection for trays -->
 <div id="flavorFields" class="hidden">
 <label>Select Your Brownie</label>
 <select name="flavor" id="flavor" required>
@@ -79,7 +102,6 @@ button:hover{background:#6e1624;}
 </select>
 </div>
 
-<!-- Mix extra flavor selection -->
 <div id="mixExtra" class="hidden">
 <label>Pick up to 3 Flavors for Mix (+3 AED)</label>
 <div class="checkbox-group">
@@ -91,7 +113,6 @@ button:hover{background:#6e1624;}
 </div>
 </div>
 
-<!-- Brownie & Ice Cream custom fields -->
 <div id="iceCreamFields" class="hidden">
 <label>Select Ice Cream Flavor</label>
 <select name="ice_cream" required>
@@ -109,23 +130,23 @@ button:hover{background:#6e1624;}
 </select>
 </div>
 
-<!-- Delivery-specific fields -->
 <div id="deliveryFields" class="hidden">
 <label>Delivery Address</label>
-<textarea name="address" rows="2"></textarea>
+<textarea name="address" rows="2" required></textarea>
 
 <label>Preferred Delivery Date & Time</label>
-<input type="datetime-local" name="delivery_date">
+<input type="datetime-local" name="delivery_date" required>
+<div class="note">Delivery timings can vary during the day depending on the area.</div>
 </div>
 
-<!-- Pickup-specific fields -->
 <div id="pickupFields" class="hidden">
 <label>Preferred Pickup Date & Time</label>
-<input type="datetime-local" name="pickup_date">
+<input type="datetime-local" name="pickup_date" required>
+<div class="note">Pickup should be at least 1 hour after ordering.</div>
 </div>
 
 <label>Notes</label>
-<textarea name="notes" rows="3"></textarea>
+<textarea name="notes" rows="3" required></textarea>
 
 <button type="submit">Archive My Box</button>
 </form>
@@ -147,59 +168,73 @@ const orderTypeSelect = document.getElementById('order_type');
 const flavorSelect = document.getElementById('flavor');
 const mixExtra = document.getElementById('mixExtra');
 const iceCreamFields = document.getElementById('iceCreamFields');
+const deliveryDateInput = document.querySelector('input[name="delivery_date"]');
+const pickupDateInput = document.querySelector('input[name="pickup_date"]');
+
+function show(el){el.classList.remove('hidden'); el.classList.add('visible');}
+function hide(el){el.classList.remove('visible'); el.classList.add('hidden');}
 
 // Show delivery/pickup fields
 methodSelect.addEventListener('change', () => {
+  const now = new Date();
   if(methodSelect.value==='Delivery'){
-    deliveryFields.classList.remove('hidden');
-    pickupFields.classList.add('hidden');
-  } else {
-    pickupFields.classList.remove('hidden');
-    deliveryFields.classList.add('hidden');
+    show(deliveryFields);
+    hide(pickupFields);
+
+    // Delivery minimum: 1 day after today
+    const tomorrow = new Date(now.getTime() + 24*60*60*1000);
+    deliveryDateInput.min = tomorrow.toISOString().slice(0,16);
+
+  } else if(methodSelect.value==='Pickup'){
+    show(pickupFields);
+    hide(deliveryFields);
+
+    // Pickup minimum: 1 hour after now
+    const oneHourLater = new Date(now.getTime() + 60*60*1000);
+    pickupDateInput.min = oneHourLater.toISOString().slice(0,16);
   }
-  trayFields.classList.remove('hidden');
-  flavorFields.classList.add('hidden');
-  mixExtra.classList.add('hidden');
-  iceCreamFields.classList.add('hidden');
+  show(trayFields); hide(flavorFields); hide(mixExtra); hide(iceCreamFields);
 });
 
 // Show fields based on order type
 orderTypeSelect.addEventListener('change', () => {
   const type = orderTypeSelect.value;
-
-  // Reset all
-  flavorFields.classList.add('hidden');
-  iceCreamFields.classList.add('hidden');
-  mixExtra.classList.add('hidden');
+  hide(flavorFields); hide(iceCreamFields); hide(mixExtra);
   flavorSelect.value = "";
   mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
 
-  if(type === "Half Tray" || type === "Full Tray"){
-    flavorFields.classList.remove('hidden');
-  } else if(type === "Brownie & Ice Cream"){
-    iceCreamFields.classList.remove('hidden');
-  }
+  if(type === "Half Tray" || type === "Full Tray"){show(flavorFields);}
+  else if(type === "Brownie & Ice Cream"){show(iceCreamFields);}
 });
 
 // Show mix extra when Mix is chosen
 flavorSelect.addEventListener('change', () => {
-  if(flavorSelect.value === "Mix"){
-    mixExtra.classList.remove('hidden');
-  } else {
-    mixExtra.classList.add('hidden');
-    mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
-  }
+  if(flavorSelect.value === "Mix"){show(mixExtra);}
+  else{hide(mixExtra); mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);}
 });
 
 // Limit checkboxes for Mix to 3
 mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
   cb.addEventListener('change', () => {
     const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
-    if(checked.length>3){
-      cb.checked = false;
-      alert("You can only pick up to 3 flavors for Mix!");
-    }
+    if(checked.length>3){cb.checked = false; alert("You can only pick up to 3 flavors for Mix!");}
   });
+});
+
+// Validate all required fields on submit
+document.getElementById('archiveForm').addEventListener('submit', function(e){
+  const orderType = orderTypeSelect.value;
+
+  if(orderType === "Brownie & Ice Cream"){
+    const iceCream = document.querySelector('select[name="ice_cream"]').value;
+    const drizzle = document.querySelector('select[name="drizzle"]').value;
+    if(!iceCream || !drizzle){alert("Please select Ice Cream flavor and Drizzle!"); e.preventDefault(); return;}
+  }
+
+  if(flavorSelect.value === "Mix"){
+    const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
+    if(checked.length===0){alert("Please select at least 1 flavor for Mix!"); e.preventDefault(); return;}
+  }
 });
 </script>
 </body>
