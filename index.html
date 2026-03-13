@@ -4,41 +4,31 @@
 <meta charset="UTF-8">
 <title>Archive Café — Order</title>
 <style>
-body{
-  font-family: Georgia, serif;
-  background:#F5F2EB;
-  color:#5B3B1C;
-  margin:0;
-  padding:0;
-}
-.container{
-  background:white;
-  padding:40px;
-  width:420px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
-  margin:50px auto;
-}
+body{font-family:Georgia,serif;background:#F5F2EB;color:#5B3B1C;margin:0;padding:0;}
+.container{background:white;padding:40px;width:420px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.1);margin:50px auto;}
 h1{text-align:center;margin-bottom:5px;}
-.subtitle{ text-align:center;color:#8B1E2D;font-size:14px;margin-bottom:25px;}
+.subtitle{text-align:center;color:#8B1E2D;font-size:14px;margin-bottom:25px;}
 label{display:block;margin-top:15px;font-size:14px;}
-input, select, textarea{ width:100%;padding:10px;margin-top:5px;border:1px solid #ddd;border-radius:6px;font-family:inherit;}
+input,select,textarea{width:100%;padding:10px;margin-top:5px;border:1px solid #ddd;border-radius:6px;font-family:inherit;}
 button{margin-top:25px;width:100%;padding:12px;border:none;background:#8B1E2D;color:white;font-size:16px;border-radius:6px;cursor:pointer;}
 button:hover{background:#6e1624;}
-.footer{ text-align:center;margin-top:20px;font-size:12px;color:#777;}
-.hidden{display:none;opacity:0;transition: opacity 0.5s ease;}
-.visible{display:block;opacity:1;transition: opacity 0.5s ease;}
+.footer{text-align:center;margin-top:20px;font-size:12px;color:#777;}
+.hidden{display:none;opacity:0;transition:opacity 0.5s ease;}
+.visible{display:block;opacity:1;transition:opacity 0.5s ease;}
 .checkbox-group{margin-top:10px;border:1px solid #ddd;padding:10px;border-radius:6px;background:#f9f6f2;}
 .checkbox-group label{display:block;font-size:14px;margin-top:5px;}
 .note{font-size:12px;color:#555;margin-top:3px;}
 </style>
 </head>
 <body>
+
 <div class="container">
 <h1>Archive Café</h1>
 <div class="subtitle">Place an Archive Order</div>
 
-<form id="archiveForm" action="https://formspree.io/f/xwvrqevg" method="POST">
+<form id="archiveForm" action="https://formspree.io/f/maqpbyaz" method="POST">
+
+<input type="hidden" name="_subject" value="New Archive Order">
 
 <label>Name</label>
 <input type="text" name="name" required>
@@ -52,23 +42,24 @@ button:hover{background:#6e1624;}
 <label>Pickup or Delivery</label>
 <select name="method" id="method" required>
   <option value="">-- Select --</option>
-  <option value="Pickup">Pickup — Dubai, Al Warqa 2</option>
+  <option value="Pickup">Pickup — Al Warqa 2, Dubai</option>
   <option value="Delivery">Delivery — All Across UAE (25–35 AED depending on area)</option>
 </select>
 
-<div id="trayFields" class="hidden">
-<label>Choose Your Order</label>
+<label>Preferred Date</label>
+<input type="date" name="preferred_date" required>
+
+<label>Select Your Box</label>
 <select name="order_type" id="order_type" required>
   <option value="">-- Select --</option>
-  <option value="Half Tray">Half Tray — 55 AED</option>
-  <option value="Full Tray">Full Tray — 85 AED</option>
-  <option value="Brownie & Ice Cream">Brownie & Ice Cream — Vanilla or Chocolate — 35 AED</option>
+  <option value="Half Tray - 55 AED">Half Tray — 55 AED</option>
+  <option value="Full Tray - 85 AED">Full Tray — 85 AED</option>
+  <option value="Brownie with Ice Cream - 35 AED">Brownie with Ice Cream — 35 AED</option>
 </select>
-</div>
 
-<div id="flavorFields" class="hidden">
+<!-- Flavor Selection -->
 <label>Select Your Brownie</label>
-<select name="flavor" id="flavor" required>
+<select name="flavor" required>
   <option value="Belgian Chocolate">Belgian Chocolate — Archive Collection</option>
   <option value="Nutella">Nutella — Archive Edition</option>
   <option value="Sea Salt Chocolate">Sea Salt Chocolate — Signature Archive</option>
@@ -76,61 +67,39 @@ button:hover{background:#6e1624;}
   <option value="Pistachio">Pistachio — Limited Archive (+3 AED)</option>
   <option value="Mix">Mix — Curated Archive (+3 AED)</option>
 </select>
+
+<!-- Mix flavors for tray -->
+<div id="mix_flavors_container" class="checkbox-group hidden">
+  <label>Choose up to 3 Mix Flavors</label>
+  <label><input type="checkbox" name="mix_flavors" value="Belgian Chocolate"> Belgian Chocolate</label>
+  <label><input type="checkbox" name="mix_flavors" value="Nutella"> Nutella</label>
+  <label><input type="checkbox" name="mix_flavors" value="Sea Salt Chocolate"> Sea Salt Chocolate</label>
+  <label><input type="checkbox" name="mix_flavors" value="Kinder Pieces"> Kinder Pieces</label>
+  <label><input type="checkbox" name="mix_flavors" value="Pistachio"> Pistachio (+3 AED)</label>
+  <label><input type="checkbox" name="mix_flavors" value="Mix"> Mix (+3 AED)</label>
 </div>
 
-<div id="mixExtra" class="hidden">
-<label>Pick up to 3 Flavors for Mix (+3 AED)</label>
-<div class="checkbox-group">
-  <label><input type="checkbox" name="mix_flavors[]" value="Belgian Chocolate"> Belgian Chocolate — Archive Collection</label>
-  <label><input type="checkbox" name="mix_flavors[]" value="Nutella"> Nutella — Archive Edition</label>
-  <label><input type="checkbox" name="mix_flavors[]" value="Sea Salt Chocolate"> Sea Salt Chocolate — Signature Archive</label>
-  <label><input type="checkbox" name="mix_flavors[]" value="Kinder Pieces"> Kinder Pieces — Special Archive</label>
-  <label><input type="checkbox" name="mix_flavors[]" value="Pistachio"> Pistachio — Limited Archive (+3 AED)</label>
-</div>
-</div>
-
-<div id="iceCreamFields" class="hidden">
-<label>Select Ice Cream Flavor</label>
-<select name="ice_cream">
-  <option value="">-- Select Flavor --</option>
-  <option value="Vanilla">Vanilla</option>
-  <option value="Chocolate">Chocolate</option>
-</select>
-
-<label>Choose Your Drizzle</label>
-<select name="drizzle">
-  <option value="">-- Select --</option>
-  <option value="Belgian Chocolate">Belgian Chocolate</option>
-  <option value="Nutella">Nutella</option>
-  <option value="Caramel">Caramel</option>
-</select>
+<!-- Brownie with Ice Cream -->
+<div id="ice_cream_container" class="hidden">
+  <label>Ice Cream Flavor (choose one)</label>
+  <select name="ice_cream_flavor">
+    <option value="Vanilla">Vanilla</option>
+    <option value="Chocolate">Chocolate</option>
+  </select>
+  <label>Drizzle (choose one)</label>
+  <select name="drizzle">
+    <option value="Belgian Chocolate">Belgian Chocolate</option>
+    <option value="Nutella">Nutella</option>
+    <option value="Caramel">Caramel</option>
+  </select>
 </div>
 
-<div id="extrasFields" class="hidden">
-<label>Extras (for trays only)</label>
+<label>Extras (optional)</label>
 <select name="extras_option">
-  <option value="">-- Select --</option>
-  <option value="Message on brownies (+5 AED)">Write a message on top of the brownies (+5 AED)</option>
-  <option value="Message on card (free)">Write a message on a plain card (free)</option>
+  <option value="">-- None --</option>
+  <option value="Message on top of brownies (+5 AED)">Message on top of brownies (+5 AED)</option>
+  <option value="Written message on plain card (free)">Written message on plain card (free)</option>
 </select>
-<label>If you want, write your message here:</label>
-<textarea name="extras_message" rows="2" placeholder="Type your message here..."></textarea>
-</div>
-
-<div id="deliveryFields" class="hidden">
-<label>Delivery Address</label>
-<textarea name="address" rows="2" required></textarea>
-
-<label>Preferred Delivery Date</label>
-<input type="date" name="delivery_date" required>
-<div class="note">Delivery timings can vary throughout the day depending on the area.</div>
-</div>
-
-<div id="pickupFields" class="hidden">
-<label>Preferred Pickup Date</label>
-<input type="date" name="pickup_date" required>
-<div class="note">Pickup should be at least 1 hour after ordering.</div>
-</div>
 
 <label>Notes (optional)</label>
 <textarea name="notes" rows="3" placeholder="Additional notes..."></textarea>
@@ -146,82 +115,26 @@ Instagram: @ARCHIVECAFE.AE
 </div>
 
 <script>
-const methodSelect = document.getElementById('method');
-const deliveryFields = document.getElementById('deliveryFields');
-const pickupFields = document.getElementById('pickupFields');
-const trayFields = document.getElementById('trayFields');
-const flavorFields = document.getElementById('flavorFields');
-const orderTypeSelect = document.getElementById('order_type');
-const flavorSelect = document.getElementById('flavor');
-const mixExtra = document.getElementById('mixExtra');
-const iceCreamFields = document.getElementById('iceCreamFields');
-const extrasFields = document.getElementById('extrasFields');
-const deliveryDateInput = document.querySelector('input[name="delivery_date"]');
-const pickupDateInput = document.querySelector('input[name="pickup_date"]');
+// Show/hide Mix flavors and Ice Cream options
+const orderType = document.getElementById("order_type");
+const mixContainer = document.getElementById("mix_flavors_container");
+const iceCreamContainer = document.getElementById("ice_cream_container");
 
-function show(el){el.classList.remove('hidden'); el.classList.add('visible'); scrollToSection(el);}
-function hide(el){el.classList.remove('visible'); el.classList.add('hidden');}
-function scrollToSection(el){el.scrollIntoView({behavior: "smooth", block: "start"});}
-
-methodSelect.addEventListener('change', () => {
-  const now = new Date();
-  if(methodSelect.value==='Delivery'){
-    show(deliveryFields);
-    hide(pickupFields);
-    const tomorrow = new Date(now.getTime() + 24*60*60*1000);
-    const yyyy = tomorrow.getFullYear();
-    const mm = String(tomorrow.getMonth()+1).padStart(2,'0');
-    const dd = String(tomorrow.getDate()).padStart(2,'0');
-    deliveryDateInput.min = `${yyyy}-${mm}-${dd}`;
-  } else if(methodSelect.value==='Pickup'){
-    show(pickupFields);
-    hide(deliveryFields);
-    const oneHourLater = new Date(now.getTime() + 60*60*1000);
-    const yyyy = oneHourLater.getFullYear();
-    const mm = String(oneHourLater.getMonth()+1).padStart(2,'0');
-    const dd = String(oneHourLater.getDate()).padStart(2,'0');
-    pickupDateInput.min = `${yyyy}-${mm}-${dd}`;
+orderType.addEventListener("change", function(){
+  if(this.value.includes("Mix")){
+    mixContainer.classList.remove("hidden");
+  } else {
+    mixContainer.classList.add("hidden");
+    mixContainer.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.checked=false);
   }
-  show(trayFields); hide(flavorFields); hide(mixExtra); hide(iceCreamFields); hide(extrasFields);
-});
 
-orderTypeSelect.addEventListener('change', () => {
-  const type = orderTypeSelect.value;
-  hide(flavorFields); hide(iceCreamFields); hide(mixExtra); hide(extrasFields);
-  flavorSelect.value = "";
-  mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
-
-  if(type === "Half Tray" || type === "Full Tray"){ 
-    show(flavorFields);
-    show(extrasFields);
-  } else if(type === "Brownie & Ice Cream"){ 
-    show(iceCreamFields);
-  }
-});
-
-flavorSelect.addEventListener('change', () => {
-  if(flavorSelect.value === "Mix"){show(mixExtra);}
-  else{hide(mixExtra); mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);}
-});
-
-mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-  cb.addEventListener('change', () => {
-    const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
-    if(checked.length>3){cb.checked = false; alert("You can only pick up to 3 flavors for Mix!");}
-  });
-});
-
-document.getElementById('archiveForm').addEventListener('submit', function(e){
-  if(flavorSelect.value === "Mix"){
-    const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
-    if(checked.length === 0){alert("Please select at least 1 flavor for Mix!"); e.preventDefault(); return;}
-  }
-  if(orderTypeSelect.value === "Brownie & Ice Cream"){
-    const iceCream = document.querySelector('select[name="ice_cream"]').value;
-    const drizzle = document.querySelector('select[name="drizzle"]').value;
-    if(!iceCream || !drizzle){alert("Please select Ice Cream flavor and Drizzle!"); e.preventDefault(); return;}
+  if(this.value.includes("Brownie with Ice Cream")){
+    iceCreamContainer.classList.remove("hidden");
+  } else {
+    iceCreamContainer.classList.add("hidden");
   }
 });
 </script>
+
 </body>
 </html>
