@@ -166,29 +166,27 @@ methodSelect.addEventListener('change', () => {
 // Show fields based on order type
 orderTypeSelect.addEventListener('change', () => {
   const type = orderTypeSelect.value;
-  if(type==='Half Tray' || type==='Full Tray'){
+
+  // Reset all
+  flavorFields.classList.add('hidden');
+  iceCreamFields.classList.add('hidden');
+  mixExtra.classList.add('hidden');
+  flavorSelect.value = "";
+  mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
+
+  if(type === "Half Tray" || type === "Full Tray"){
     flavorFields.classList.remove('hidden');
-    iceCreamFields.classList.add('hidden');
-    mixExtra.classList.add('hidden');
-    flavorSelect.value = "";
-  } else if(type==='Brownie & Ice Cream'){
+  } else if(type === "Brownie & Ice Cream"){
     iceCreamFields.classList.remove('hidden');
-    flavorFields.classList.add('hidden');
-    mixExtra.classList.add('hidden');
-  } else{
-    flavorFields.classList.add('hidden');
-    iceCreamFields.classList.add('hidden');
-    mixExtra.classList.add('hidden');
   }
 });
 
-// Show mix extra only when Mix is selected
+// Show mix extra when Mix is chosen
 flavorSelect.addEventListener('change', () => {
-  if(flavorSelect.value==='Mix'){
+  if(flavorSelect.value === "Mix"){
     mixExtra.classList.remove('hidden');
   } else {
     mixExtra.classList.add('hidden');
-    // uncheck all checkboxes when hiding
     mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
   }
 });
@@ -206,4 +204,3 @@ mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
 </script>
 </body>
 </html>
-
