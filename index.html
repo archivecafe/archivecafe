@@ -122,14 +122,14 @@ button:hover{background:#6e1624;}
 <label>Delivery Address</label>
 <textarea name="address" rows="2" required></textarea>
 
-<label>Preferred Delivery Date & Time</label>
-<input type="datetime-local" name="delivery_date" required>
+<label>Preferred Delivery Date</label>
+<input type="date" name="delivery_date" required>
 <div class="note">Delivery timings can vary throughout the day depending on the area.</div>
 </div>
 
 <div id="pickupFields" class="hidden">
-<label>Preferred Pickup Date & Time</label>
-<input type="datetime-local" name="pickup_date" required>
+<label>Preferred Pickup Date</label>
+<input type="date" name="pickup_date" required>
 <div class="note">Pickup should be at least 1 hour after ordering.</div>
 </div>
 
@@ -170,12 +170,18 @@ methodSelect.addEventListener('change', () => {
     show(deliveryFields);
     hide(pickupFields);
     const tomorrow = new Date(now.getTime() + 24*60*60*1000);
-    deliveryDateInput.min = tomorrow.toISOString().slice(0,16);
+    const yyyy = tomorrow.getFullYear();
+    const mm = String(tomorrow.getMonth()+1).padStart(2,'0');
+    const dd = String(tomorrow.getDate()).padStart(2,'0');
+    deliveryDateInput.min = `${yyyy}-${mm}-${dd}`;
   } else if(methodSelect.value==='Pickup'){
     show(pickupFields);
     hide(deliveryFields);
     const oneHourLater = new Date(now.getTime() + 60*60*1000);
-    pickupDateInput.min = oneHourLater.toISOString().slice(0,16);
+    const yyyy = oneHourLater.getFullYear();
+    const mm = String(oneHourLater.getMonth()+1).padStart(2,'0');
+    const dd = String(oneHourLater.getDate()).padStart(2,'0');
+    pickupDateInput.min = `${yyyy}-${mm}-${dd}`;
   }
   show(trayFields); hide(flavorFields); hide(mixExtra); hide(iceCreamFields); hide(extrasFields);
 });
