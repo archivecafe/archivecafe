@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Archive Café</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      margin:0;
+      font-family: Georgia, serif;
+      background:#F5F2EB;
+      color:#5B3B1C;
+      text-align:center;
+    }
+    header{
+      padding:80px 20px;
+    }
+    h1{
+      font-size:52px;
+      letter-spacing:3px;
+      margin-bottom:10px;
+    }
+    .tagline{
+      font-size:18px;
+      color:#7A5630;
+    }
+    button{
+      background:#8B1E2D;
+      color:white;
+      border:none;
+      padding:14px 32px;
+      font-size:16px;
+      border-radius:6px;
+      margin-top:25px;
+      cursor:pointer;
+    }
+    section{
+      padding:60px 20px;
+      max-width:700px;
+      margin:auto;
+    }
+    h2{
+      font-size:28px;
+      margin-bottom:20px;
+    }
+    .menu{
+      line-height:2;
+      font-size:18px;
+    }
+    .box{
+      background:#E8E1D6;
+      padding:30px;
+      border-radius:8px;
+      margin-top:20px;
+    }
+    input, textarea, select{
+      width:90%;
+      padding:10px;
+      margin:5px 0 15px 0;
+      border:1px solid #7A5630;
+      border-radius:6px;
+      font-family: Georgia, serif;
+    }
+    input:focus, textarea:focus, select:focus{
+      outline:none;
+      border-color:#8B1E2D;
+    }
+    footer{
+      padding:40px;
+      font-size:14px;
+      color:#7A5630;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- Add your logo here if you have one -->
+  <!--<img src="logo.png" width="140" alt="Archive Café Logo">-->
+  <h1>ARCHIVE CAFÉ</h1>
+  <p class="tagline">Brownies, Bites & Vibes in Dubai</p>
+  <button onclick="location.href='https://instagram.com/archivecafe.ae'">
+    Order from the Archive
+  </button>
+</header>
+
+<section>
+  <h2>The Archive Files</h2>
+  <div class="menu">
+    File 001 — Belgian Chocolate Brownie<br>
+    File 002 — Nutella Brownie<br>
+    File 003 — Sea Salt Chocolate Brownie<br>
+    File 004 — Kinder Pieces Brownie<br>
+    File 005 — Pistachio Brownie (+3 AED)
+  </div>
+</section>
+
+<section>
+  <h2>Archive Dessert</h2>
+  <div class="menu">
+    Warm Brownie + Ice Cream<br><br>
+    Vanilla — 35 AED<br>
+    Chocolate — 35 AED
+  </div>
+</section>
+
+<section>
+  <h2>Archive Trays</h2>
+  <div class="menu">
+    Half Tray — 45 AED<br>
+    Full Tray — 75 AED
+  </div>
+</section>
+
+<section>
+  <div class="box">
+    <h2>Pickup</h2>
+    Al Warqa 2 – Dubai<br>
+    Order 1 hour in advance<br><br>
+    يرجى الطلب قبل ساعة
+  </div>
+</section>
+
+<section>
+  <div class="box">
+    <h2>Delivery</h2>
+    Available across the UAE<br>
+    Order 24 hours in advance<br><br>
+    يرجى الطلب قبل 24 ساعة
+  </div>
+</section>
+
+<section>
+  <h2>Order Your Archive Brownies</h2>
+  <div class="box">
+    <form action="https://formsubmit.co/YOUR_EMAIL_HERE" method="POST">
+      <label for="name">Name</label><br>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="email">Email</label><br>
+      <input type="email" id="email" name="email" required><br>
+
+      <label for="phone">Phone</label><br>
+      <input type="tel" id="phone" name="phone" required><br>
+
+      <label for="order">Order Details</label><br>
+      <textarea id="order" name="order" required></textarea><br>
+
+      <label for="pickup">Pickup or Delivery</label><br>
+      <select id="pickup" name="pickup">
+        <option value="pickup">Pickup</option>
+        <option value="delivery">Delivery</option>
+      </select><br>
+
+      <label for="date">Date / Time</label><br>
+      <input type="text" id="date" name="date" placeholder="DD/MM/YYYY HH:MM"><br>
+
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  Instagram: @archivecafe.ae
+</footer>
+
+</body>
+</html>
