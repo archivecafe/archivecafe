@@ -1,167 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Archive Café</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body{
-      margin:0;
-      font-family: Georgia, serif;
-      background:#F5F2EB;
-      color:#5B3B1C;
-      text-align:center;
-    }
-    header{
-      padding:80px 20px;
-    }
-    h1{
-      font-size:52px;
-      letter-spacing:3px;
-      margin-bottom:10px;
-    }
-    .tagline{
-      font-size:18px;
-      color:#7A5630;
-    }
-    button{
-      background:#8B1E2D;
-      color:white;
-      border:none;
-      padding:14px 32px;
-      font-size:16px;
-      border-radius:6px;
-      margin-top:25px;
-      cursor:pointer;
-    }
-    section{
-      padding:60px 20px;
-      max-width:700px;
-      margin:auto;
-    }
-    h2{
-      font-size:28px;
-      margin-bottom:20px;
-    }
-    .menu{
-      line-height:2;
-      font-size:18px;
-    }
-    .box{
-      background:#E8E1D6;
-      padding:30px;
-      border-radius:8px;
-      margin-top:20px;
-    }
-    input, textarea, select{
-      width:90%;
-      padding:10px;
-      margin:5px 0 15px 0;
-      border:1px solid #7A5630;
-      border-radius:6px;
-      font-family: Georgia, serif;
-    }
-    input:focus, textarea:focus, select:focus{
-      outline:none;
-      border-color:#8B1E2D;
-    }
-    footer{
-      padding:40px;
-      font-size:14px;
-      color:#7A5630;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Archive Café — Order</title>
+
+<style>
+
+body{
+font-family: Georgia, serif;
+background:#F5F2EB;
+color:#5B3B1C;
+margin:0;
+padding:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+background:white;
+padding:40px;
+width:420px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+margin-bottom:5px;
+}
+
+.subtitle{
+text-align:center;
+color:#8B1E2D;
+font-size:14px;
+margin-bottom:25px;
+}
+
+label{
+display:block;
+margin-top:15px;
+font-size:14px;
+}
+
+input, select, textarea{
+width:100%;
+padding:10px;
+margin-top:5px;
+border:1px solid #ddd;
+border-radius:6px;
+font-family:inherit;
+}
+
+button{
+margin-top:25px;
+width:100%;
+padding:12px;
+border:none;
+background:#8B1E2D;
+color:white;
+font-size:16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#6e1624;
+}
+
+.footer{
+text-align:center;
+margin-top:20px;
+font-size:12px;
+color:#777;
+}
+
+</style>
 </head>
+
 <body>
 
-<header>
-  <!-- Add your logo here if you have one -->
-  <!--<img src="logo.png" width="140" alt="Archive Café Logo">-->
-  <h1>ARCHIVE CAFÉ</h1>
-  <p class="tagline">Brownies, Bites & Vibes in Dubai</p>
-  <button onclick="location.href='https://instagram.com/archivecafe.ae'">
-    Order from the Archive
-  </button>
-</header>
+<div class="container">
 
-<section>
-  <h2>The Archive Files</h2>
-  <div class="menu">
-    File 001 — Belgian Chocolate Brownie<br>
-    File 002 — Nutella Brownie<br>
-    File 003 — Sea Salt Chocolate Brownie<br>
-    File 004 — Kinder Pieces Brownie<br>
-    File 005 — Pistachio Brownie (+3 AED)
-  </div>
-</section>
+<h1>Archive Café</h1>
+<div class="subtitle">Place an Archive Order</div>
 
-<section>
-  <h2>Archive Dessert</h2>
-  <div class="menu">
-    Warm Brownie + Ice Cream<br><br>
-    Vanilla — 35 AED<br>
-    Chocolate — 35 AED
-  </div>
-</section>
+<form action="https://formspree.io/f/xwvrqevg" method="POST">
 
-<section>
-  <h2>Archive Trays</h2>
-  <div class="menu">
-    Half Tray — 45 AED<br>
-    Full Tray — 75 AED
-  </div>
-</section>
+<label>Name</label>
+<input type="text" name="name" required>
 
-<section>
-  <div class="box">
-    <h2>Pickup</h2>
-    Al Warqa 2 – Dubai<br>
-    Order 1 hour in advance<br><br>
-    يرجى الطلب قبل ساعة
-  </div>
-</section>
+<label>Phone Number</label>
+<input type="text" name="phone" required>
 
-<section>
-  <div class="box">
-    <h2>Delivery</h2>
-    Available across the UAE<br>
-    Order 24 hours in advance<br><br>
-    يرجى الطلب قبل 24 ساعة
-  </div>
-</section>
+<label>Select Your Brownie</label>
+<select name="flavor" required>
 
-<section>
-  <h2>Order Your Archive Brownies</h2>
-  <div class="box">
-    <form action="https://formsubmit.co/YOUR_EMAIL_HERE" method="POST">
-      <label for="name">Name</label><br>
-      <input type="text" id="name" name="name" required><br>
+<option value="Belgian Chocolate">
+Belgian Chocolate — Archive Collection
+</option>
 
-      <label for="email">Email</label><br>
-      <input type="email" id="email" name="email" required><br>
+<option value="Nutella">
+Nutella — Archive Edition
+</option>
 
-      <label for="phone">Phone</label><br>
-      <input type="tel" id="phone" name="phone" required><br>
+<option value="Sea Salt Chocolate">
+Sea Salt Chocolate — Signature Archive
+</option>
 
-      <label for="order">Order Details</label><br>
-      <textarea id="order" name="order" required></textarea><br>
+<option value="Kinder Pieces">
+Kinder Pieces — Special Archive
+</option>
 
-      <label for="pickup">Pickup or Delivery</label><br>
-      <select id="pickup" name="pickup">
-        <option value="pickup">Pickup</option>
-        <option value="delivery">Delivery</option>
-      </select><br>
+<option value="Pistachio">
+Pistachio — Limited Archive (+3 AED)
+</option>
 
-      <label for="date">Date / Time</label><br>
-      <input type="text" id="date" name="date" placeholder="DD/MM/YYYY HH:MM"><br>
+<option value="Mix">
+Mix — Curated Archive (+3 AED)
+</option>
 
-      <button type="submit">Submit Order</button>
-    </form>
-  </div>
-</section>
+</select>
 
-<footer>
-  Instagram: @archivecafe.ae
-</footer>
+<label>Quantity</label>
+<input type="number" name="quantity" min="1" required>
+
+<label>Pickup or Delivery</label>
+<select name="method">
+<option value="Pickup">Pickup</option>
+<option value="Delivery">Delivery</option>
+</select>
+
+<label>Notes</label>
+<textarea name="notes" rows="3"></textarea>
+
+<button type="submit">Archive My Box</button>
+
+</form>
+
+<div class="footer">
+Archive Café • Freshly Archived Desserts
+</div>
+
+</div>
 
 </body>
 </html>
