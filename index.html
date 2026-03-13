@@ -206,19 +206,16 @@ mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
   });
 });
 
-// Validate required fields before submit
+// Corrected submit validation
 document.getElementById('archiveForm').addEventListener('submit', function(e){
-  const orderType = orderTypeSelect.value;
-
-  if(orderType === "Brownie & Ice Cream"){
-    const iceCream = document.querySelector('select[name="ice_cream"]').value;
-    const drizzle = document.querySelector('select[name="drizzle"]').value;
-    if(!iceCream || !drizzle){alert("Please select Ice Cream flavor and Drizzle!"); e.preventDefault(); return;}
-  }
-
   if(flavorSelect.value === "Mix"){
     const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
     if(checked.length === 0){alert("Please select at least 1 flavor for Mix!"); e.preventDefault(); return;}
+  }
+  if(orderTypeSelect.value === "Brownie & Ice Cream"){
+    const iceCream = document.querySelector('select[name="ice_cream"]').value;
+    const drizzle = document.querySelector('select[name="drizzle"]').value;
+    if(!iceCream || !drizzle){alert("Please select Ice Cream flavor and Drizzle!"); e.preventDefault(); return;}
   }
 });
 </script>
