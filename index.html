@@ -92,14 +92,14 @@ button:hover{background:#6e1624;}
 
 <div id="iceCreamFields" class="hidden">
 <label>Select Ice Cream Flavor</label>
-<select name="ice_cream" required>
+<select name="ice_cream">
   <option value="">-- Select Flavor --</option>
   <option value="Vanilla">Vanilla</option>
   <option value="Chocolate">Chocolate</option>
 </select>
 
 <label>Choose Your Drizzle</label>
-<select name="drizzle" required>
+<select name="drizzle">
   <option value="">-- Select --</option>
   <option value="Belgian Chocolate">Belgian Chocolate</option>
   <option value="Nutella">Nutella</option>
@@ -162,13 +162,8 @@ const pickupDateInput = document.querySelector('input[name="pickup_date"]');
 
 function show(el){el.classList.remove('hidden'); el.classList.add('visible'); scrollToSection(el);}
 function hide(el){el.classList.remove('visible'); el.classList.add('hidden');}
+function scrollToSection(el){el.scrollIntoView({behavior: "smooth", block: "start"});}
 
-// Smooth scroll to element
-function scrollToSection(el){
-  el.scrollIntoView({behavior: "smooth", block: "start"});
-}
-
-// Show delivery/pickup fields
 methodSelect.addEventListener('change', () => {
   const now = new Date();
   if(methodSelect.value==='Delivery'){
@@ -185,7 +180,6 @@ methodSelect.addEventListener('change', () => {
   show(trayFields); hide(flavorFields); hide(mixExtra); hide(iceCreamFields); hide(extrasFields);
 });
 
-// Show fields based on order type
 orderTypeSelect.addEventListener('change', () => {
   const type = orderTypeSelect.value;
   hide(flavorFields); hide(iceCreamFields); hide(mixExtra); hide(extrasFields);
@@ -200,13 +194,11 @@ orderTypeSelect.addEventListener('change', () => {
   }
 });
 
-// Show mix extra when Mix is chosen
 flavorSelect.addEventListener('change', () => {
   if(flavorSelect.value === "Mix"){show(mixExtra);}
   else{hide(mixExtra); mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);}
 });
 
-// Limit checkboxes for Mix to 3
 mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
   cb.addEventListener('change', () => {
     const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
@@ -214,7 +206,7 @@ mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => {
   });
 });
 
-// Validate all required fields on submit
+// Validate required fields before submit
 document.getElementById('archiveForm').addEventListener('submit', function(e){
   const orderType = orderTypeSelect.value;
 
@@ -226,7 +218,7 @@ document.getElementById('archiveForm').addEventListener('submit', function(e){
 
   if(flavorSelect.value === "Mix"){
     const checked = mixExtra.querySelectorAll('input[type="checkbox"]:checked');
-    if(checked.length===0){alert("Please select at least 1 flavor for Mix!"); e.preventDefault(); return;}
+    if(checked.length === 0){alert("Please select at least 1 flavor for Mix!"); e.preventDefault(); return;}
   }
 });
 </script>
