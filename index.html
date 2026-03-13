@@ -10,10 +10,6 @@ body{
   color:#5B3B1C;
   margin:0;
   padding:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
 }
 .container{
   background:white;
@@ -21,6 +17,8 @@ body{
   width:420px;
   border-radius:10px;
   box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  margin:50px auto;
+  min-height:400px;
 }
 h1{text-align:center;margin-bottom:5px;}
 .subtitle{ text-align:center;color:#8B1E2D;font-size:14px;margin-bottom:25px;}
@@ -29,39 +27,18 @@ input, select, textarea{ width:100%;padding:10px;margin-top:5px;border:1px solid
 button{margin-top:25px;width:100%;padding:12px;border:none;background:#8B1E2D;color:white;font-size:16px;border-radius:6px;cursor:pointer;}
 button:hover{background:#6e1624;}
 .footer{ text-align:center;margin-top:20px;font-size:12px;color:#777;}
-.hidden{
-  display:none;
-  opacity:0;
-  transition: opacity 0.5s ease;
-}
-.visible{
-  display:block;
-  opacity:1;
-  transition: opacity 0.5s ease;
-}
-.checkbox-group{
-  margin-top:10px;
-  border:1px solid #ddd;
-  padding:10px;
-  border-radius:6px;
-  background:#f9f6f2;
-}
-.checkbox-group label{
-  display:block;
-  font-size:14px;
-  margin-top:5px;
-}
-.note{
-  font-size:12px;
-  color:#555;
-  margin-top:3px;
-}
+.hidden{display:none;opacity:0;transition: opacity 0.5s ease;}
+.visible{display:block;opacity:1;transition: opacity 0.5s ease;}
+.checkbox-group{margin-top:10px;border:1px solid #ddd;padding:10px;border-radius:6px;background:#f9f6f2;}
+.checkbox-group label{display:block;font-size:14px;margin-top:5px;}
+.note{font-size:12px;color:#555;margin-top:3px;}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>Archive Café</h1>
 <div class="subtitle">Place an Archive Order</div>
+
 <form id="archiveForm" action="https://formspree.io/f/xwvrqevg" method="POST">
 
 <label>Name</label>
@@ -130,13 +107,24 @@ button:hover{background:#6e1624;}
 </select>
 </div>
 
+<div id="extrasFields" class="hidden">
+<label>Extras (for trays only)</label>
+<select name="extras_option">
+  <option value="">-- Select --</option>
+  <option value="Message on brownies (+5 AED)">Write a message on top of the brownies (+5 AED)</option>
+  <option value="Message on card (free)">Write a message on a plain card (free)</option>
+</select>
+<label>If you want, write your message here:</label>
+<textarea name="extras_message" rows="2" placeholder="Type your message here..."></textarea>
+</div>
+
 <div id="deliveryFields" class="hidden">
 <label>Delivery Address</label>
 <textarea name="address" rows="2" required></textarea>
 
 <label>Preferred Delivery Date & Time</label>
 <input type="datetime-local" name="delivery_date" required>
-<div class="note">Delivery timings can vary during the day depending on the area.</div>
+<div class="note">Delivery timings can vary throughout the day depending on the area.</div>
 </div>
 
 <div id="pickupFields" class="hidden">
@@ -145,8 +133,8 @@ button:hover{background:#6e1624;}
 <div class="note">Pickup should be at least 1 hour after ordering.</div>
 </div>
 
-<label>Notes</label>
-<textarea name="notes" rows="3" required></textarea>
+<label>Notes (optional)</label>
+<textarea name="notes" rows="3" placeholder="Additional notes..."></textarea>
 
 <button type="submit">Archive My Box</button>
 </form>
@@ -168,11 +156,17 @@ const orderTypeSelect = document.getElementById('order_type');
 const flavorSelect = document.getElementById('flavor');
 const mixExtra = document.getElementById('mixExtra');
 const iceCreamFields = document.getElementById('iceCreamFields');
+const extrasFields = document.getElementById('extrasFields');
 const deliveryDateInput = document.querySelector('input[name="delivery_date"]');
 const pickupDateInput = document.querySelector('input[name="pickup_date"]');
 
-function show(el){el.classList.remove('hidden'); el.classList.add('visible');}
+function show(el){el.classList.remove('hidden'); el.classList.add('visible'); scrollToSection(el);}
 function hide(el){el.classList.remove('visible'); el.classList.add('hidden');}
+
+// Smooth scroll to element
+function scrollToSection(el){
+  el.scrollIntoView({behavior: "smooth", block: "start"});
+}
 
 // Show delivery/pickup fields
 methodSelect.addEventListener('change', () => {
@@ -180,31 +174,30 @@ methodSelect.addEventListener('change', () => {
   if(methodSelect.value==='Delivery'){
     show(deliveryFields);
     hide(pickupFields);
-
-    // Delivery minimum: 1 day after today
     const tomorrow = new Date(now.getTime() + 24*60*60*1000);
     deliveryDateInput.min = tomorrow.toISOString().slice(0,16);
-
   } else if(methodSelect.value==='Pickup'){
     show(pickupFields);
     hide(deliveryFields);
-
-    // Pickup minimum: 1 hour after now
     const oneHourLater = new Date(now.getTime() + 60*60*1000);
     pickupDateInput.min = oneHourLater.toISOString().slice(0,16);
   }
-  show(trayFields); hide(flavorFields); hide(mixExtra); hide(iceCreamFields);
+  show(trayFields); hide(flavorFields); hide(mixExtra); hide(iceCreamFields); hide(extrasFields);
 });
 
 // Show fields based on order type
 orderTypeSelect.addEventListener('change', () => {
   const type = orderTypeSelect.value;
-  hide(flavorFields); hide(iceCreamFields); hide(mixExtra);
+  hide(flavorFields); hide(iceCreamFields); hide(mixExtra); hide(extrasFields);
   flavorSelect.value = "";
   mixExtra.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
 
-  if(type === "Half Tray" || type === "Full Tray"){show(flavorFields);}
-  else if(type === "Brownie & Ice Cream"){show(iceCreamFields);}
+  if(type === "Half Tray" || type === "Full Tray"){ 
+    show(flavorFields);
+    show(extrasFields);
+  } else if(type === "Brownie & Ice Cream"){ 
+    show(iceCreamFields);
+  }
 });
 
 // Show mix extra when Mix is chosen
